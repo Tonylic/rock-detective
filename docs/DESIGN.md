@@ -29,7 +29,8 @@ to their personal rock collection.
    fun facts, rock-cycle links, and a *likelihood table* for 19 observable
    clues (e.g. P(fizzes with vinegar | limestone) ≈ 0.9).
 2. **Photo analysis on device**: extract scientifically meaningful visual cues
-   from the central 60 % of the photo, using Core Graphics + plain Swift math
+   from a centered square crop (side = 60 % of the photo's shorter edge),
+   using Core Graphics + plain Swift math
    (portable and testable):
    * color tone (median brightness) → light felsic vs dark mafic rocks;
    * warm hue (fraction of clearly pink/red/orange pixels, saturation ≥ 0.27);
@@ -241,7 +242,8 @@ session so kids can keep answering clues later; the entry is updated in place.
   layers").
 * Emoji and a friendly pebble mascot; light haptics and a sparkle burst on
   results; respects Reduce Motion.
-* VoiceOver labels on all controls; Dynamic Type friendly layout.
+* VoiceOver labels on controls; large fixed-size rounded type. (Dynamic
+  Type scaling is future work.)
 * No links out, no purchases, no ads → no parental gate needed.
 
 ---
@@ -308,11 +310,12 @@ UI tests in `RockIDUITests` (XCTest). Test names carry the IDs below.
 | MT-18 | Contradictory answers (floats=yes, fizz=yes, glassy=yes, pebbles=yes) | valid distribution, no NaN, top < 0.9 |
 | MT-19 | One wrong answer (granite clues + fizz=yes) | granite still in top 3 |
 | MT-20 | Self-consistency: each rock's most-likely answer to every clue | that rock is #1 (all 24) |
-| MT-21 | Monte-Carlo: 200 simulated kids per rock answering all clues (seeded) | within 2 points of the Bayes-optimal ceiling; top-1 ≥ 65 %, top-3 ≥ 90 % (see §7) |
+| MT-21 | Monte-Carlo: 200 simulated kids per rock answering all clues (seeded) | within 3 (top-1) / 2 (top-3) points of the Bayes-optimal classifier for the simulation (exact probabilities, uniform prior, no mistake allowance); top-1 ≥ 65 %, top-3 ≥ 90 % (see §7) |
 | MT-22 | Soft photo evidence only (dark, fine, glassy) | obsidian in top 3, but confidence < answers-based |
 | MT-22b | Kid answers a clue the photo also guessed | photo guess for that clue is ignored |
 | MT-23 | Photo evidence weight 0 | same as no evidence |
 | MT-24 | Confidence level mapping | ≥0.6 sure, ≥0.35 good guess, else hunch |
+| MT-25 | Uniform-prior option | every rock equally likely with no evidence |
 
 ### 5.3 Question planner (QP)
 
@@ -421,14 +424,17 @@ All numbers below come from the test suite (`scripts/test-all.sh`).
 
 | Suite | macOS (`swift test`) | iPad simulator (iOS 27) |
 |---|---|---|
-| RockKit unit tests | 82 / 82 pass | 82 / 82 pass (RM-05 skipped: the simulator has no Vision feature-print model; it passes on macOS) |
+| RockKit unit tests | 83 / 83 pass | 83 / 83 pass (RM-05 skipped: the simulator has no Vision feature-print model; it passes on macOS) |
 | UI tests (UI-01 … UI-07 + learn-more flow) | — | 4 / 4 pass |
 
-**Accuracy (simulated kids, seeded):**
+**Accuracy (simulated kids, seeded).** Each simulated kid draws every clue
+answer from its rock's catalog probabilities and never makes mistakes, and
+every rock is equally likely. These numbers measure how well the clues
+separate the rocks under the model's own assumptions, not real-world accuracy.
 
 | Scenario | Top-1 | Top-3 |
 |---|---|---|
-| Bayes-optimal ceiling, all 19 clues answered | 68.2 % | 91.6 % |
+| Bayes-optimal for this simulation (exact probabilities, uniform prior), all clues | 69.0 % | 91.8 % |
 | Rock Detective matcher, all clues | 67.3 % | 91.1 % |
 | 5 adaptive questions | 46.5 % | 73.1 % |
 | 5 random questions | 23.0 % | 49.2 % |
@@ -441,12 +447,19 @@ photo analysis 47 ms, 12 MP decode + downsample 70 ms.
 
 * **MT-21 / QP-06 thresholds.** The first targets (75 % / 92 %, 60 % adaptive)
   were set before measuring. Simulated kids sample each clue from a rock's
-  real-world variability, and on that data even a perfect classifier tops out
-  at ≈ 68 % top-1 / 92 % top-3, because the remaining confusions are the
-  genuinely hard ones (diorite ↔ granite ↔ gabbro, basalt ↔ andesite,
+  catalog probabilities, and on that data even the Bayes-optimal classifier
+  tops out at ≈ 69 % top-1 / 92 % top-3, because the remaining confusions are
+  the genuinely hard ones (diorite ↔ granite ↔ gabbro, basalt ↔ andesite,
   shale ↔ slate, chert ↔ obsidian, limestone ↔ marble). The tests now check
-  that the matcher stays within 2 points of that ceiling, plus absolute floors.
-  This is why the app always shows "Could also be…" and an honest confidence.
+  that the matcher stays within 3 / 2 points of that classifier, plus absolute
+  floors. The gap comes from the matcher's deliberate commonness prior and
+  mistake allowance. This is why the app always shows "Could also be…" and an
+  honest confidence.
+* **Reference classifier corrected.** An independent fact-check of the README
+  noticed the first "ceiling" (68.2 % / 91.6 %) still used the commonness
+  prior, which isn't optimal when every rock is equally likely. The matcher
+  gained a `useCommonnessPrior` setting, and MT-21 now compares against the
+  true Bayes-optimal classifier (uniform prior).
 * **Added the quartz clue.** The confusion analysis showed diorite misread as
   granite most often. Field guides separate them by quartz, so the 19th clue
   ("glassy bits, like ice") was added: correct diorite IDs rose from 52 to 100

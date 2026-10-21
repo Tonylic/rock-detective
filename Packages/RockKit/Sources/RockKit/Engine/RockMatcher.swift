@@ -90,23 +90,38 @@ public struct RockMatcher: Sendable {
         public var photoWeight: Double
         /// Exponent applied to reference-picture evidence.
         public var referenceWeight: Double
+        /// Weight rocks by how common they are where kids look. Turn off for a
+        /// uniform prior (e.g. when every rock is equally likely, as in tests).
+        public var useCommonnessPrior: Bool
 
-        public init(mistakeRate: Double = 0.08, photoWeight: Double = 0.7, referenceWeight: Double = 0.6) {
+        public init(
+            mistakeRate: Double = 0.08,
+            photoWeight: Double = 0.7,
+            referenceWeight: Double = 0.6,
+            useCommonnessPrior: Bool = true
+        ) {
             self.mistakeRate = mistakeRate
             self.photoWeight = photoWeight
             self.referenceWeight = referenceWeight
+            self.useCommonnessPrior = useCommonnessPrior
         }
     }
 
     public let catalog: RockCatalog
     public var settings: Settings
-    private let logPriors: [Double]
+    private let commonnessLogPriors: [Double]
 
     public init(catalog: RockCatalog, settings: Settings = Settings()) {
         self.catalog = catalog
         self.settings = settings
         let total = Double(catalog.rocks.reduce(0) { $0 + $1.commonness })
-        self.logPriors = catalog.rocks.map { log(Double($0.commonness) / total) }
+        self.commonnessLogPriors = catalog.rocks.map { log(Double($0.commonness) / total) }
+    }
+
+    private var logPriors: [Double] {
+        settings.useCommonnessPrior
+            ? commonnessLogPriors
+            : Array(repeating: -log(Double(catalog.rocks.count)), count: catalog.rocks.count)
     }
 
     /// P(answer | rock) including the kid-mistake rate.

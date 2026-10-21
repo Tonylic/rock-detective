@@ -175,6 +175,8 @@ struct PhotoCluesCard: View {
             }
         }
         .card(padding: 20)
+        // A containing element keeps the children's own identifiers.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("photoClues")
     }
 }
@@ -320,6 +322,8 @@ struct ClueQuestionCard: View {
             RoundedRectangle(cornerRadius: 28, style: .continuous)
                 .stroke(Theme.grape.opacity(0.5), lineWidth: 3)
         )
+        // A containing element keeps the children's own identifiers.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("clueCard")
     }
 
@@ -353,6 +357,8 @@ struct CaseClosedCard: View {
             }
         }
         .card()
+        // A containing element keeps the children's own identifiers.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("caseClosedCard")
     }
 }
@@ -390,6 +396,8 @@ struct AnsweredCluesCard: View {
             }
         }
         .card(padding: 20)
+        // A containing element keeps the children's own identifiers.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("yourClues")
     }
 }

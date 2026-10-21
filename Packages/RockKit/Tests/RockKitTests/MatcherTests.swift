@@ -93,35 +93,49 @@ struct MatcherTests {
         }
     }
 
-    @Test("MT-21 simulated kids answering every clue: near the Bayes-optimal ceiling")
+    @Test("MT-21 simulated kids answering every clue: close to the Bayes-optimal classifier")
     func monteCarloAccuracy() {
-        // The ideal classifier knows the exact likelihoods kids are sampled
-        // from, so its accuracy is the best any method can reach on this data.
-        let ideal = RockMatcher(catalog: catalog, settings: .init(mistakeRate: 0))
-        var hits = (top1: 0, top3: 0, idealTop1: 0, idealTop3: 0)
+        // Every rock is equally likely in this simulation and answers are drawn
+        // from the catalog's exact probabilities, so the Bayes-optimal classifier
+        // uses those probabilities with a uniform prior and no mistake allowance.
+        // The app's matcher instead keeps its commonness prior and mistake rate.
+        let optimal = RockMatcher(catalog: catalog, settings: .init(mistakeRate: 0, useCommonnessPrior: false))
+        var hits = (top1: 0, top3: 0, optimalTop1: 0, optimalTop3: 0)
         var total = 0
         for (index, rock) in catalog.rocks.enumerated() {
             for trial in 0..<200 {
                 var kid = SimulatedKid(rock: rock, seed: UInt64(index * 1000 + trial + 1))
                 let evidence = kid.answerEverything(catalog: catalog)
                 let rank = matcher.match(evidence).rank(of: rock.id) ?? 99
-                let idealRank = ideal.match(evidence).rank(of: rock.id) ?? 99
+                let optimalRank = optimal.match(evidence).rank(of: rock.id) ?? 99
                 if rank == 1 { hits.top1 += 1 }
                 if rank <= 3 { hits.top3 += 1 }
-                if idealRank == 1 { hits.idealTop1 += 1 }
-                if idealRank <= 3 { hits.idealTop3 += 1 }
+                if optimalRank == 1 { hits.optimalTop1 += 1 }
+                if optimalRank <= 3 { hits.optimalTop3 += 1 }
                 total += 1
             }
         }
         let top1 = Double(hits.top1) / Double(total)
         let top3 = Double(hits.top3) / Double(total)
-        let idealTop1 = Double(hits.idealTop1) / Double(total)
-        let idealTop3 = Double(hits.idealTop3) / Double(total)
-        print("MT-21 top-1 \(top1) (ideal \(idealTop1)), top-3 \(top3) (ideal \(idealTop3))")
-        #expect(top1 >= idealTop1 - 0.02)
-        #expect(top3 >= idealTop3 - 0.02)
+        let optimalTop1 = Double(hits.optimalTop1) / Double(total)
+        let optimalTop3 = Double(hits.optimalTop3) / Double(total)
+        print("MT-21 top-1 \(top1) (Bayes-optimal \(optimalTop1)), top-3 \(top3) (Bayes-optimal \(optimalTop3))")
+        #expect(top1 >= optimalTop1 - 0.03)
+        #expect(top3 >= optimalTop3 - 0.02)
         #expect(top1 >= 0.65)
         #expect(top3 >= 0.90)
+    }
+
+    @Test("MT-25 the uniform-prior option treats every rock as equally likely")
+    func uniformPrior() {
+        let uniform = RockMatcher(catalog: catalog, settings: .init(useCommonnessPrior: false))
+        let probabilities = uniform.posterior(for: Evidence())
+        let expected = 1 / Double(catalog.rocks.count)
+        #expect(probabilities.allSatisfy { abs($0 - expected) < 1e-12 })
+        // Turning the option back on restores the commonness ordering (MT-01).
+        var switched = uniform
+        switched.settings.useCommonnessPrior = true
+        #expect(switched.match(Evidence()).top(5).allSatisfy { Fixtures.rock($0.rockID).commonness == 5 })
     }
 
     @Test("MT-22 photo evidence alone is softer than kid answers")

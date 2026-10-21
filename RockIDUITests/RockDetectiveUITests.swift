@@ -10,6 +10,7 @@ final class RockDetectiveUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    @MainActor
     private func launch(reset: Bool, practiceRock: String = "gneiss") -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = ["-uiTesting", "-practiceRock", practiceRock]
@@ -18,6 +19,7 @@ final class RockDetectiveUITests: XCTestCase {
         return app
     }
 
+    @MainActor
     private func identifyPracticeRock(in app: XCUIApplication) {
         let practice = app.buttons["practiceRockButton"]
         XCTAssertTrue(practice.waitForExistence(timeout: timeout))
@@ -25,6 +27,7 @@ final class RockDetectiveUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["bestMatchName"].waitForExistence(timeout: timeout), "No result appeared")
     }
 
+    @MainActor
     private func goHome(_ app: XCUIApplication) {
         let back = app.navigationBars.buttons.element(boundBy: 0)
         while back.exists && back.isHittable {
@@ -34,6 +37,7 @@ final class RockDetectiveUITests: XCTestCase {
     }
 
     /// UI-01
+    @MainActor
     func testHomeShowsMainActions() {
         let app = launch(reset: true)
         XCTAssertTrue(app.staticTexts["appTitle"].waitForExistence(timeout: timeout))
@@ -43,6 +47,7 @@ final class RockDetectiveUITests: XCTestCase {
     }
 
     /// UI-02, UI-03, UI-04, UI-05, UI-07
+    @MainActor
     func testIdentifyAnswerSaveAndPersist() {
         var app = launch(reset: true)
 
@@ -52,6 +57,7 @@ final class RockDetectiveUITests: XCTestCase {
         XCTAssertTrue(app.otherElements["couldAlsoBe"].exists || app.staticTexts["Could also be…"].exists)
 
         // UI-03: answer a detective clue; it shows up under "Your clues".
+        XCTAssertTrue(app.staticTexts["cluePrompt"].waitForExistence(timeout: timeout), "The clue question is not reachable")
         let yes = app.buttons["answer_yes"]
         let light = app.buttons["answer_light"]
         let answer = yes.waitForExistence(timeout: timeout) ? yes : light
@@ -86,6 +92,7 @@ final class RockDetectiveUITests: XCTestCase {
     }
 
     /// UI-06
+    @MainActor
     func testRockBookShowsGranite() {
         let app = launch(reset: true)
         XCTAssertTrue(app.buttons["rockBookButton"].waitForExistence(timeout: timeout))
@@ -107,6 +114,7 @@ final class RockDetectiveUITests: XCTestCase {
     }
 
     /// Learning flow: from a result into the rock's page and the rock cycle.
+    @MainActor
     func testLearnMoreFromResult() {
         let app = launch(reset: true, practiceRock: "obsidian")
         identifyPracticeRock(in: app)
