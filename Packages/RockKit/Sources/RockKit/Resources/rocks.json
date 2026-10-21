@@ -1,0 +1,665 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "color", "prompt": "What color is most of your rock?", "shortLabel": "Main color", "emoji": "🎨",
+      "howTo": "Look at a clean, dry part of the rock in good light. Ignore dirt and moss!", "effort": 1,
+      "options": [
+        { "answer": "light", "label": "Light", "emoji": "☁️", "detail": "white, cream, pink, light gray" },
+        { "answer": "medium", "label": "In-between", "emoji": "🌥️", "detail": "gray, tan, brown" },
+        { "answer": "dark", "label": "Dark", "emoji": "🌑", "detail": "black, dark gray, dark green" }
+      ]
+    },
+    {
+      "id": "reddish", "prompt": "Is it pink, red, or orange-ish?", "shortLabel": "Pink or red", "emoji": "🌸",
+      "howTo": "Even a little pink, red, or rusty-orange color counts.", "effort": 1
+    },
+    {
+      "id": "grains", "prompt": "Can you see lots of little grains or crystals, like sugar?", "shortLabel": "Grains you can see", "emoji": "🔍",
+      "howTo": "Look closely. A magnifying glass helps! Grains or crystals look like tiny pieces packed together.", "effort": 1
+    },
+    {
+      "id": "speckled", "prompt": "Does it have different-colored specks, like salt and pepper?", "shortLabel": "Salt-and-pepper specks", "emoji": "🧂",
+      "howTo": "Look for dark specks mixed with light ones, or crystals of several colors.", "effort": 1
+    },
+    {
+      "id": "quartzBits", "prompt": "Can you see clear or smoky-gray glassy bits, like tiny pieces of ice?", "shortLabel": "Glassy quartz bits", "emoji": "🧊",
+      "howTo": "Use a magnifying glass. Quartz looks like little bits of clear or gray glass mixed in with the other grains.", "effort": 1
+    },
+    {
+      "id": "sparkle", "prompt": "Does it sparkle or glitter when you tilt it in the light?", "shortLabel": "Sparkles", "emoji": "✨",
+      "howTo": "Slowly turn the rock under a lamp or in sunshine. Shiny flakes flash like glitter.", "effort": 1
+    },
+    {
+      "id": "glassy", "prompt": "Is it smooth and shiny, like glass?", "shortLabel": "Glassy", "emoji": "🪞",
+      "howTo": "Look at a broken surface. Glassy rocks look like a piece of a bottle and have smooth, curved breaks.", "effort": 1
+    },
+    {
+      "id": "layers", "prompt": "Does it have layers, stripes, or bands?", "shortLabel": "Layers or stripes", "emoji": "🍰",
+      "howTo": "Look at the sides of the rock for lines or stripes, like a layer cake.", "effort": 1
+    },
+    {
+      "id": "sheets", "prompt": "Does it split or flake into thin, flat sheets?", "shortLabel": "Splits into sheets", "emoji": "📄",
+      "howTo": "Look at the edges. Do you see thin flat pieces, like the pages of a book?", "effort": 2
+    },
+    {
+      "id": "holes", "prompt": "Does it have lots of little holes, like a sponge?", "shortLabel": "Bubble holes", "emoji": "🧽",
+      "howTo": "Look for many small round holes. They were gas bubbles in lava!", "effort": 1
+    },
+    {
+      "id": "floats", "prompt": "Does it float in water?", "shortLabel": "Floats", "emoji": "🛟",
+      "howTo": "Gently put the rock in a bowl or sink of water and watch for a few seconds.", "effort": 2
+    },
+    {
+      "id": "fizz", "prompt": "Does it fizz when you drip vinegar on it?", "shortLabel": "Fizzes in vinegar", "emoji": "🫧",
+      "howTo": "Put a few drops of vinegar on the rock and watch closely for tiny bubbles. Scratching off a little powder first makes the fizz easier to see.",
+      "safety": "Ask a grown-up to help, keep vinegar away from your eyes, and rinse the rock afterwards.", "effort": 3
+    },
+    {
+      "id": "pebbles", "prompt": "Is it made of pebbles or rock pieces stuck together?", "shortLabel": "Made of pebbles", "emoji": "🪨",
+      "howTo": "Look for bigger chunks of different rocks glued into a finer background, like nuts in a cookie.", "effort": 1
+    },
+    {
+      "id": "roundPebbles", "prompt": "Are those pebbles round and smooth?", "shortLabel": "Round pebbles", "emoji": "⚪",
+      "howTo": "Round pebbles were tumbled in water for a long time. Sharp, pointy pieces didn't travel far.", "effort": 1,
+      "requires": { "clue": "pebbles", "answer": "yes" }
+    },
+    {
+      "id": "gritty", "prompt": "Rub it with your finger. Does it feel rough like sandpaper?", "shortLabel": "Feels like sandpaper", "emoji": "🖐️",
+      "howTo": "Gently rub a clean surface with your fingertip.", "effort": 2
+    },
+    {
+      "id": "nailScratch", "prompt": "Can a steel nail scratch it?", "shortLabel": "Nail scratches it", "emoji": "🔩",
+      "howTo": "Press a steel nail firmly and drag it across a flat spot. Rub the line with your finger: a real scratch stays as a groove, but a metal streak rubs off.",
+      "safety": "Ask a grown-up to do this test, and point the nail away from you.", "effort": 3
+    },
+    {
+      "id": "marks", "prompt": "Does it leave a mark on paper or on your fingers, like chalk?", "shortLabel": "Leaves marks", "emoji": "✏️",
+      "howTo": "Rub the rock on a piece of scrap paper or along your fingertip.", "effort": 2
+    },
+    {
+      "id": "fossils", "prompt": "Can you see any fossils, like shells or leaf prints?", "shortLabel": "Fossils", "emoji": "🐚",
+      "howTo": "Look for the shapes of shells, coral, stems, or leaves on the rock.", "effort": 1
+    },
+    {
+      "id": "lightweight", "prompt": "Does it feel surprisingly light for its size?", "shortLabel": "Very light", "emoji": "🪶",
+      "howTo": "Hold your rock in one hand and an ordinary rock of the same size in the other. Which feels lighter?", "effort": 2
+    }
+  ],
+  "rocks": [
+    {
+      "id": "granite", "name": "Granite", "sayIt": "GRAN-it", "family": "igneous",
+      "kind": "Intrusive igneous: cooled slowly deep underground",
+      "summary": "A tough, speckled rock with crystals big enough to see. It is often white, gray, or pink with black specks.",
+      "formation": "Granite starts as hot melted rock called magma, deep underground. It cools very slowly over thousands of years, so its crystals have lots of time to grow big enough to see.",
+      "minerals": ["Quartz", "Feldspar", "Mica", "Hornblende"],
+      "hardness": { "min": 6, "max": 7 },
+      "whereFound": "Mountains, big rocky domes, kitchen countertops, and buildings. Granite makes up a big part of the continents.",
+      "funFacts": [
+        "The faces on Mount Rushmore are carved into granite.",
+        "Pink granite gets its color from a pink kind of feldspar.",
+        "Granite is so strong that it is used for bridges, monuments, and curling stones."
+      ],
+      "formsFrom": [], "canBecome": ["gneiss", "sandstone"],
+      "lookAlikeTip": "Diorite looks similar but has little or no pink and looks more like salt and pepper. Gneiss has the same crystals, but lined up in stripes.",
+      "safetyNote": null, "commonness": 5,
+      "art": { "pattern": "speckled", "base": "#D9CEC5", "accents": ["#262626", "#E7A898", "#F7F5F0", "#9C9C9C"], "seed": 1 },
+      "clues": {
+        "color": { "light": 0.6, "medium": 0.35, "dark": 0.05 },
+        "reddish": 0.45, "grains": 0.95, "speckled": 0.9, "quartzBits": 0.85, "sparkle": 0.6, "glassy": 0.03, "layers": 0.05,
+        "sheets": 0.02, "holes": 0.02, "floats": 0.01, "fizz": 0.02, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.05, "marks": 0.02, "fossils": 0.01, "lightweight": 0.03
+      }
+    },
+    {
+      "id": "diorite", "name": "Diorite", "sayIt": "DIE-oh-rite", "family": "igneous",
+      "kind": "Intrusive igneous: cooled slowly deep underground",
+      "summary": "A speckled black-and-white rock that looks like salt and pepper sprinkled together.",
+      "formation": "Diorite forms from magma that cools slowly underground, just like granite. It has less quartz and more dark minerals, which gives it its salt-and-pepper look.",
+      "minerals": ["Plagioclase feldspar", "Hornblende", "Biotite mica"],
+      "hardness": { "min": 5.5, "max": 6.5 },
+      "whereFound": "Mountain ranges near old volcanoes, and as paving stones and building stone.",
+      "funFacts": [
+        "More than 4,000 years ago, people in ancient Mesopotamia carved statues of their ruler Gudea out of diorite.",
+        "Diorite is the in-between cousin of light granite and dark gabbro."
+      ],
+      "formsFrom": [], "canBecome": ["gneiss"],
+      "lookAlikeTip": "Granite has more pink or white and some glassy-looking quartz. Gabbro is much darker overall.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "speckled", "base": "#BDBDB8", "accents": ["#1C1C1C", "#F4F4F0", "#2E2E2E"], "seed": 2 },
+      "clues": {
+        "color": { "light": 0.15, "medium": 0.6, "dark": 0.25 },
+        "reddish": 0.03, "grains": 0.95, "speckled": 0.95, "quartzBits": 0.1, "sparkle": 0.4, "glassy": 0.03, "layers": 0.05,
+        "sheets": 0.02, "holes": 0.02, "floats": 0.01, "fizz": 0.02, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.05, "marks": 0.02, "fossils": 0.01, "lightweight": 0.03
+      }
+    },
+    {
+      "id": "gabbro", "name": "Gabbro", "sayIt": "GAB-row", "family": "igneous",
+      "kind": "Intrusive igneous: cooled slowly deep underground",
+      "summary": "A dark, heavy rock with crystals you can see. It is basalt's slow-cooled twin.",
+      "formation": "Gabbro forms from the same kind of magma as basalt, but it cools slowly deep underground, so its crystals grow big.",
+      "minerals": ["Plagioclase feldspar", "Pyroxene", "Olivine"],
+      "hardness": { "min": 5.5, "max": 6.5 },
+      "whereFound": "Deep parts of the ocean floor, mountain belts where ocean crust was pushed up, and polished countertops.",
+      "funFacts": [
+        "Much of the deep part of the ocean crust is made of gabbro.",
+        "Many shiny 'black granite' countertops are actually gabbro!"
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Basalt is just as dark, but its crystals are too tiny to see. Diorite has much more white.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "speckled", "base": "#3B3E3B", "accents": ["#151515", "#9AA19C", "#5D6A5D"], "seed": 3 },
+      "clues": {
+        "color": { "light": 0.02, "medium": 0.18, "dark": 0.8 },
+        "reddish": 0.02, "grains": 0.9, "speckled": 0.55, "quartzBits": 0.03, "sparkle": 0.4, "glassy": 0.03, "layers": 0.08,
+        "sheets": 0.02, "holes": 0.02, "floats": 0.01, "fizz": 0.02, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.25, "nailScratch": 0.08, "marks": 0.02, "fossils": 0.01, "lightweight": 0.02
+      }
+    },
+    {
+      "id": "basalt", "name": "Basalt", "sayIt": "buh-SALT", "family": "igneous",
+      "kind": "Extrusive igneous: lava that cooled quickly",
+      "summary": "A dark gray to black volcanic rock with crystals too tiny to see. It is the most common volcanic rock on Earth.",
+      "formation": "Basalt forms when runny lava erupts and cools quickly on the surface. It cools so fast that its crystals stay tiny. Gas bubbles sometimes get trapped and leave little holes.",
+      "minerals": ["Plagioclase feldspar", "Pyroxene", "Olivine"],
+      "hardness": { "min": 5.5, "max": 6.5 },
+      "whereFound": "Volcanic islands like Hawaii and Iceland, lava fields, and the whole ocean floor.",
+      "funFacts": [
+        "Most of the ocean floor is made of basalt.",
+        "The dark patches you can see on the Moon are giant plains of basalt.",
+        "At the Giant's Causeway in Northern Ireland, cooling basalt cracked into thousands of columns, most of them six-sided."
+      ],
+      "formsFrom": [], "canBecome": ["schist"],
+      "lookAlikeTip": "Gabbro has big crystals you can see. Scoria is full of holes and lighter. Obsidian is shiny like glass.",
+      "safetyNote": null, "commonness": 5,
+      "art": { "pattern": "fine", "base": "#3C3C3F", "accents": ["#2A2A2C", "#4C4C50"], "seed": 4 },
+      "clues": {
+        "color": { "light": 0.02, "medium": 0.2, "dark": 0.78 },
+        "reddish": 0.08, "grains": 0.12, "speckled": 0.08, "quartzBits": 0.02, "sparkle": 0.08, "glassy": 0.05, "layers": 0.05,
+        "sheets": 0.03, "holes": 0.3, "floats": 0.01, "fizz": 0.03, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.35, "nailScratch": 0.08, "marks": 0.02, "fossils": 0.01, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "andesite", "name": "Andesite", "sayIt": "AN-deh-site", "family": "igneous",
+      "kind": "Extrusive igneous: lava that cooled quickly",
+      "summary": "A medium-gray volcanic rock, often with a few small light or dark crystals sprinkled in.",
+      "formation": "Andesite forms from thick, sticky lava at volcanoes near the edges of ocean plates. It cools fast, so most crystals are tiny, but a few bigger ones may have grown before it erupted.",
+      "minerals": ["Plagioclase feldspar", "Hornblende", "Pyroxene", "Biotite mica"],
+      "hardness": { "min": 5.5, "max": 6.5 },
+      "whereFound": "Tall cone-shaped volcanoes like the ones in the Andes Mountains, the Cascades, and Japan.",
+      "funFacts": [
+        "Andesite is named after the Andes Mountains in South America.",
+        "The 'Ring of Fire' volcanoes around the Pacific Ocean erupt lots of andesite."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Basalt is darker. Rhyolite is lighter and often pinkish. Diorite has the same minerals, but in big crystals.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "porphyritic", "base": "#7E7E7B", "accents": ["#ECEAE3", "#2E2E2E", "#6E6E6B"], "seed": 5 },
+      "clues": {
+        "color": { "light": 0.1, "medium": 0.7, "dark": 0.2 },
+        "reddish": 0.12, "grains": 0.35, "speckled": 0.35, "quartzBits": 0.05, "sparkle": 0.15, "glassy": 0.03, "layers": 0.08,
+        "sheets": 0.03, "holes": 0.12, "floats": 0.01, "fizz": 0.02, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.08, "marks": 0.02, "fossils": 0.01, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "rhyolite", "name": "Rhyolite", "sayIt": "RYE-oh-lite", "family": "igneous",
+      "kind": "Extrusive igneous: lava that cooled quickly",
+      "summary": "A light-colored volcanic rock, often pink, tan, or light gray, sometimes with swirly flow lines.",
+      "formation": "Rhyolite forms from very thick, sticky lava that has the same ingredients as granite. It cools quickly at the surface, so its crystals are tiny. Slowly flowing lava can leave stripes called flow bands.",
+      "minerals": ["Quartz", "Feldspar", "Biotite mica"],
+      "hardness": { "min": 6, "max": 6.5 },
+      "whereFound": "Old volcanic areas like Yellowstone National Park and much of the western United States.",
+      "funFacts": [
+        "Rhyolite is granite's quick-cooled twin: same ingredients, much smaller crystals.",
+        "Rhyolite lava is so thick and sticky that its volcanoes can erupt explosively.",
+        "Much of the rock in Yellowstone National Park is rhyolite."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Granite has big crystals. Andesite is grayer and darker. Pink rhyolite can look like sandstone, but it does not feel gritty.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "flowBanded", "base": "#D8AA9B", "accents": ["#C38D7F", "#EDD3C6", "#B97C6E"], "seed": 6 },
+      "clues": {
+        "color": { "light": 0.55, "medium": 0.4, "dark": 0.05 },
+        "reddish": 0.55, "grains": 0.3, "speckled": 0.2, "quartzBits": 0.3, "sparkle": 0.15, "glassy": 0.08, "layers": 0.3,
+        "sheets": 0.03, "holes": 0.1, "floats": 0.02, "fizz": 0.02, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.06, "marks": 0.02, "fossils": 0.01, "lightweight": 0.08
+      }
+    },
+    {
+      "id": "obsidian", "name": "Obsidian", "sayIt": "ob-SID-ee-un", "family": "igneous",
+      "kind": "Extrusive igneous: natural volcanic glass",
+      "summary": "Natural volcanic glass! It is usually shiny black and breaks with smooth, curved, super-sharp edges.",
+      "formation": "Obsidian forms when thick lava cools so fast that crystals have no time to grow at all. The atoms freeze in a jumble, making glass.",
+      "minerals": ["Volcanic glass (mostly silica)", "Tiny specks of magnetite that make it dark"],
+      "hardness": { "min": 5, "max": 5.5 },
+      "whereFound": "Young volcanic areas such as Oregon, California, Iceland, Mexico, and Yellowstone's Obsidian Cliff.",
+      "funFacts": [
+        "Ancient people chipped obsidian into arrowheads, knives, and even mirrors.",
+        "A fresh obsidian edge can be sharper than a steel razor. Some special surgery scalpels are made from it!",
+        "Even though it looks black, obsidian is made of light-colored ingredients. Tiny specks of minerals make it dark."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Shiny black slag from old factories and broken bottle glass look similar. Chert (flint) has a waxy shine instead of a glassy one.",
+      "safetyNote": "Obsidian edges are very sharp. Hold it carefully and never break it without a grown-up.",
+      "commonness": 2,
+      "art": { "pattern": "glassy", "base": "#121215", "accents": ["#FFFFFF", "#3A3A48"], "seed": 7 },
+      "clues": {
+        "color": { "light": 0.02, "medium": 0.05, "dark": 0.93 },
+        "reddish": 0.1, "grains": 0.02, "speckled": 0.03, "quartzBits": 0.15, "sparkle": 0.15, "glassy": 0.97, "layers": 0.1,
+        "sheets": 0.02, "holes": 0.03, "floats": 0.01, "fizz": 0.01, "pebbles": 0.01, "roundPebbles": 0.5,
+        "gritty": 0.03, "nailScratch": 0.15, "marks": 0.01, "fossils": 0.01, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "pumice", "name": "Pumice", "sayIt": "PUM-iss", "family": "igneous",
+      "kind": "Extrusive igneous: frothy volcanic glass",
+      "summary": "A light, bubbly volcanic rock full of tiny holes. Many pieces are so light they float!",
+      "formation": "Pumice forms when gassy lava blasts out of a volcano. The gas bubbles grow like soda foam, and the lava cools into glass around them before they can escape.",
+      "minerals": ["Volcanic glass (mostly silica)", "Trapped gas bubbles"],
+      "hardness": { "min": 5, "max": 6 },
+      "whereFound": "Near explosive volcanoes, on beaches where it washes up, and in bathrooms as foot scrubbers.",
+      "funFacts": [
+        "Pumice is the only common rock that can float on water.",
+        "After some underwater eruptions, huge rafts of floating pumice drift across the ocean.",
+        "People use pumice stones to scrub rough skin and to make stonewashed jeans."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Scoria also has holes, but it is darker, heavier, and usually sinks.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "vesicular", "base": "#DDD9CD", "accents": ["#A6A195", "#C4BFB2", "#F2EFE6"], "seed": 8 },
+      "clues": {
+        "color": { "light": 0.8, "medium": 0.17, "dark": 0.03 },
+        "reddish": 0.05, "grains": 0.05, "speckled": 0.05, "quartzBits": 0.05, "sparkle": 0.1, "glassy": 0.05, "layers": 0.05,
+        "sheets": 0.02, "holes": 0.97, "floats": 0.85, "fizz": 0.02, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.8, "nailScratch": 0.4, "marks": 0.05, "fossils": 0.01, "lightweight": 0.97
+      }
+    },
+    {
+      "id": "scoria", "name": "Scoria", "sayIt": "SKOR-ee-uh", "family": "igneous",
+      "kind": "Extrusive igneous: bubbly lava rock",
+      "summary": "A dark red or black lava rock full of holes, like a burnt sponge.",
+      "formation": "Scoria forms when gas-filled lava sprays out of a volcano and cools quickly. The bubbles leave holes, but the walls between them are thicker than in pumice.",
+      "minerals": ["Volcanic glass", "Pyroxene", "Plagioclase feldspar", "Olivine"],
+      "hardness": { "min": 5, "max": 6 },
+      "whereFound": "Cinder cone volcanoes, lava fields, and gardens and barbecue grills as 'lava rock'.",
+      "funFacts": [
+        "Red scoria gets its color from iron that rusted while the lava was still hot.",
+        "Cinder cone volcanoes are built from piles of scoria pieces called cinders.",
+        "Scoria has holes like pumice, but it is heavier and usually sinks in water."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Pumice is lighter in color and weight and often floats. Basalt can have a few holes but is mostly solid.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "vesicular", "base": "#6C2F23", "accents": ["#2A130F", "#8B3C2B", "#4A1F18"], "seed": 9 },
+      "clues": {
+        "color": { "light": 0.02, "medium": 0.3, "dark": 0.68 },
+        "reddish": 0.45, "grains": 0.08, "speckled": 0.08, "quartzBits": 0.02, "sparkle": 0.05, "glassy": 0.05, "layers": 0.03,
+        "sheets": 0.02, "holes": 0.97, "floats": 0.05, "fizz": 0.02, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.85, "nailScratch": 0.25, "marks": 0.03, "fossils": 0.01, "lightweight": 0.65
+      }
+    },
+    {
+      "id": "tuff", "name": "Tuff", "sayIt": "TUFF", "family": "igneous",
+      "kind": "Volcanic (pyroclastic) igneous: made of volcanic ash",
+      "summary": "A soft, often light-colored rock made of volcanic ash that settled and hardened.",
+      "formation": "When a volcano explodes, it throws out clouds of ash and little bits of rock. When this ash lands and gets packed or welded together, it becomes tuff.",
+      "minerals": ["Volcanic glass shards", "Feldspar", "Quartz", "Bits of pumice and rock"],
+      "hardness": { "min": 2, "max": 5 },
+      "whereFound": "Around old explosive volcanoes, such as in Italy, Cappadocia in Turkey, Easter Island, and the western United States.",
+      "funFacts": [
+        "The famous moai statues on Easter Island are carved from tuff.",
+        "In Cappadocia, Turkey, people carved whole houses and churches into soft tuff cliffs.",
+        "Tuff is light and easy to cut, so the ancient Romans used it for buildings."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Sandstone feels similar but is made of sand grains, not ash. Chalk leaves white marks and fizzes in vinegar.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "ash", "base": "#E2D5BD", "accents": ["#B6A688", "#8E8476", "#F4EEE1"], "seed": 10 },
+      "clues": {
+        "color": { "light": 0.6, "medium": 0.35, "dark": 0.05 },
+        "reddish": 0.2, "grains": 0.3, "speckled": 0.25, "quartzBits": 0.15, "sparkle": 0.08, "glassy": 0.03, "layers": 0.3,
+        "sheets": 0.05, "holes": 0.25, "floats": 0.05, "fizz": 0.03, "pebbles": 0.2, "roundPebbles": 0.3,
+        "gritty": 0.55, "nailScratch": 0.6, "marks": 0.1, "fossils": 0.03, "lightweight": 0.45
+      }
+    },
+    {
+      "id": "sandstone", "name": "Sandstone", "sayIt": "SAND-stone", "family": "sedimentary",
+      "kind": "Clastic sedimentary: made of sand grains",
+      "summary": "A rock made of sand grains glued together. It feels gritty like sandpaper and comes in tan, red, yellow, or white.",
+      "formation": "Rivers, wind, and waves pile up sand. Over a long time, the sand gets buried, squeezed, and glued together by minerals that act like cement.",
+      "minerals": ["Quartz", "Feldspar", "Natural cement (silica, calcite, or iron oxide)"],
+      "hardness": { "min": 6, "max": 7 },
+      "whereFound": "Deserts, canyons, beaches, river valleys, and old buildings. Arches National Park and the Grand Canyon have lots of it.",
+      "funFacts": [
+        "The ancient city of Petra in Jordan was carved right into pink sandstone cliffs.",
+        "Red sandstone gets its color from iron oxide, the same stuff as rust.",
+        "Slanted lines inside sandstone, called cross-beds, show which way ancient wind or water was moving!"
+      ],
+      "formsFrom": ["granite"], "canBecome": ["quartzite"],
+      "lookAlikeTip": "Quartzite is sandstone that was heated and squeezed. It is harder and breaks right through the grains. Tuff is softer and made of ash.",
+      "safetyNote": null, "commonness": 5,
+      "art": { "pattern": "crossBedded", "base": "#D9B07A", "accents": ["#C3935B", "#E9C996", "#B47D47"], "seed": 11 },
+      "clues": {
+        "color": { "light": 0.45, "medium": 0.5, "dark": 0.05 },
+        "reddish": 0.45, "grains": 0.85, "speckled": 0.2, "quartzBits": 0.5, "sparkle": 0.3, "glassy": 0.02, "layers": 0.6,
+        "sheets": 0.1, "holes": 0.05, "floats": 0.01, "fizz": 0.15, "pebbles": 0.1, "roundPebbles": 0.7,
+        "gritty": 0.92, "nailScratch": 0.35, "marks": 0.1, "fossils": 0.1, "lightweight": 0.1
+      }
+    },
+    {
+      "id": "shale", "name": "Shale", "sayIt": "SHAYL", "family": "sedimentary",
+      "kind": "Clastic sedimentary: made of mud and clay",
+      "summary": "A smooth, soft rock made of hardened mud that splits into thin, flat layers.",
+      "formation": "Tiny bits of clay and mud settle slowly to the bottom of calm lakes, lagoons, and seas. Over millions of years, the mud is pressed into thin layers of rock.",
+      "minerals": ["Clay minerals", "Quartz", "Tiny flakes of mica"],
+      "hardness": { "min": 2, "max": 3 },
+      "whereFound": "Road cuts, creek beds, and hillsides. It is the most common sedimentary rock.",
+      "funFacts": [
+        "Shale is the most common sedimentary rock on Earth.",
+        "Some shales hold amazing fossils, like the Burgess Shale in Canada with sea creatures from over 500 million years ago.",
+        "Wet shale often smells earthy, like clay."
+      ],
+      "formsFrom": [], "canBecome": ["slate"],
+      "lookAlikeTip": "Slate is harder, does not crumble, and makes a 'clink' sound when tapped. Mudstone is similar but does not split into sheets.",
+      "safetyNote": null, "commonness": 5,
+      "art": { "pattern": "fissile", "base": "#5C5F64", "accents": ["#45484D", "#72757A", "#50535A"], "seed": 12 },
+      "clues": {
+        "color": { "light": 0.08, "medium": 0.45, "dark": 0.47 },
+        "reddish": 0.15, "grains": 0.03, "speckled": 0.03, "quartzBits": 0.02, "sparkle": 0.04, "glassy": 0.02, "layers": 0.85,
+        "sheets": 0.85, "holes": 0.02, "floats": 0.01, "fizz": 0.12, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.1, "nailScratch": 0.85, "marks": 0.2, "fossils": 0.3, "lightweight": 0.1
+      }
+    },
+    {
+      "id": "conglomerate", "name": "Conglomerate", "sayIt": "con-GLOM-er-it", "family": "sedimentary",
+      "kind": "Clastic sedimentary: made of rounded pebbles",
+      "summary": "A rock that looks like nature's concrete: rounded pebbles stuck together with sand.",
+      "formation": "Fast rivers and crashing waves roll pebbles around until they are smooth and round. Later, sand and natural cement fill the spaces and glue the pebbles together.",
+      "minerals": ["Rounded pebbles of other rocks", "Sand", "Natural cement (silica, calcite, or iron oxide)"],
+      "hardness": { "min": 3, "max": 7 },
+      "whereFound": "Old riverbeds, beaches, and the bottoms of cliffs and mountains.",
+      "funFacts": [
+        "Round pebbles tell geologists that the pieces traveled far in water before becoming rock.",
+        "In England, a colorful conglomerate is nicknamed 'puddingstone' because it looks like a plum pudding.",
+        "The Curiosity rover found conglomerate rocks on Mars, a clue that streams once flowed there!"
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Breccia also has big pieces, but they are sharp and angular instead of round.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "roundClasts", "base": "#B9A68A", "accents": ["#7E7E7E", "#CBB99E", "#8C6A4F", "#E2DACE", "#5A5550"], "seed": 13 },
+      "clues": {
+        "color": { "light": 0.3, "medium": 0.55, "dark": 0.15 },
+        "reddish": 0.25, "grains": 0.6, "speckled": 0.6, "quartzBits": 0.35, "sparkle": 0.15, "glassy": 0.03, "layers": 0.15,
+        "sheets": 0.02, "holes": 0.05, "floats": 0.01, "fizz": 0.15, "pebbles": 0.97, "roundPebbles": 0.92,
+        "gritty": 0.45, "nailScratch": 0.3, "marks": 0.03, "fossils": 0.05, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "breccia", "name": "Breccia", "sayIt": "BRETCH-ee-uh", "family": "sedimentary",
+      "kind": "Clastic sedimentary: made of sharp, broken pieces",
+      "summary": "A rock made of sharp, angular rock pieces cemented together.",
+      "formation": "When rocks break apart in landslides, along faults, or even in meteorite impacts, the sharp pieces pile up nearby. They do not travel far, so they stay pointy before being cemented together.",
+      "minerals": ["Angular pieces of other rocks", "Natural cement (calcite, silica, or iron oxide)"],
+      "hardness": { "min": 3, "max": 7 },
+      "whereFound": "At the bottom of cliffs, along faults, in caves, and around meteorite craters.",
+      "funFacts": [
+        "'Breccia' comes from an Italian word meaning broken stones or rubble.",
+        "Some breccias formed when giant meteorites smashed into Earth and the Moon.",
+        "Polished breccia makes beautiful floors and tabletops."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Conglomerate has round pebbles instead of sharp ones.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "angularClasts", "base": "#A9907B", "accents": ["#5E5A57", "#D8CEC4", "#8E3B2E", "#3F3F3F"], "seed": 14 },
+      "clues": {
+        "color": { "light": 0.3, "medium": 0.5, "dark": 0.2 },
+        "reddish": 0.25, "grains": 0.45, "speckled": 0.6, "quartzBits": 0.2, "sparkle": 0.15, "glassy": 0.05, "layers": 0.08,
+        "sheets": 0.02, "holes": 0.05, "floats": 0.01, "fizz": 0.2, "pebbles": 0.97, "roundPebbles": 0.08,
+        "gritty": 0.4, "nailScratch": 0.3, "marks": 0.03, "fossils": 0.03, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "limestone", "name": "Limestone", "sayIt": "LIME-stone", "family": "sedimentary",
+      "kind": "Biological and chemical sedimentary: mostly calcite",
+      "summary": "A light gray or tan rock made mostly of calcite, often from ancient shells. It fizzes with vinegar!",
+      "formation": "In warm, shallow seas, the shells and skeletons of sea creatures pile up on the sea floor. Over time they are pressed and cemented into limestone. Some limestone also forms when calcite comes straight out of the water.",
+      "minerals": ["Calcite", "Bits of shells and coral", "Sometimes dolomite"],
+      "hardness": { "min": 3, "max": 4 },
+      "whereFound": "Cliffs, caves, quarries, and old buildings. Many caves are carved out of limestone by water.",
+      "funFacts": [
+        "The Great Pyramid of Giza was built mostly from limestone blocks.",
+        "Rainwater slowly dissolves limestone to make caves with stalactites and stalagmites.",
+        "Many limestones are full of fossils of ancient sea animals."
+      ],
+      "formsFrom": [], "canBecome": ["marble"],
+      "lookAlikeTip": "Marble also fizzes, but it has sparkly, sugary crystals. Chalk is whiter, softer, and leaves marks.",
+      "safetyNote": null, "commonness": 5,
+      "art": { "pattern": "fossiliferous", "base": "#CFC8B8", "accents": ["#B5AC98", "#E8E2D4", "#9A917D"], "seed": 15 },
+      "clues": {
+        "color": { "light": 0.55, "medium": 0.4, "dark": 0.05 },
+        "reddish": 0.08, "grains": 0.25, "speckled": 0.1, "quartzBits": 0.03, "sparkle": 0.1, "glassy": 0.03, "layers": 0.45,
+        "sheets": 0.1, "holes": 0.15, "floats": 0.01, "fizz": 0.9, "pebbles": 0.05, "roundPebbles": 0.5,
+        "gritty": 0.25, "nailScratch": 0.85, "marks": 0.05, "fossils": 0.45, "lightweight": 0.07
+      }
+    },
+    {
+      "id": "chalk", "name": "Chalk", "sayIt": "CHAWK", "family": "sedimentary",
+      "kind": "Biological sedimentary: made of microscopic shells",
+      "summary": "A soft, white rock made from microscopic shells. It leaves white marks and fizzes with vinegar.",
+      "formation": "Chalk is made from the shells of trillions of tiny sea plankton called coccolithophores. Their shells slowly piled up on the floor of a warm sea and hardened into rock.",
+      "minerals": ["Calcite (from microscopic shells)", "Sometimes lumps of flint"],
+      "hardness": { "min": 1, "max": 3 },
+      "whereFound": "Sea cliffs like the White Cliffs of Dover in England, and parts of Kansas and Texas.",
+      "funFacts": [
+        "Most of Europe's chalk formed while dinosaurs were alive. The Cretaceous Period is even named after the Latin word for chalk!",
+        "Each tiny shell is so small that thousands could fit on the head of a pin.",
+        "Many sidewalk chalks today are not real chalk. They are often made of gypsum."
+      ],
+      "formsFrom": [], "canBecome": ["marble"],
+      "lookAlikeTip": "Limestone is harder and does not leave marks easily. Tuff is also soft and light, but it does not fizz.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "chalky", "base": "#F4F2EA", "accents": ["#E2DED1", "#3A3A3A", "#FFFFFF"], "seed": 16 },
+      "clues": {
+        "color": { "light": 0.96, "medium": 0.03, "dark": 0.01 },
+        "reddish": 0.02, "grains": 0.03, "speckled": 0.03, "quartzBits": 0.02, "sparkle": 0.02, "glassy": 0.01, "layers": 0.15,
+        "sheets": 0.05, "holes": 0.08, "floats": 0.03, "fizz": 0.95, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.15, "nailScratch": 0.97, "marks": 0.95, "fossils": 0.15, "lightweight": 0.45
+      }
+    },
+    {
+      "id": "coal", "name": "Coal", "sayIt": "KOLE", "family": "sedimentary",
+      "kind": "Organic sedimentary: made from ancient plants",
+      "summary": "A black, lightweight rock made from ancient plants. It leaves black marks and can burn.",
+      "formation": "Millions of years ago, plants in huge swamps died and sank into the mud before they could rot away. Buried deep and squeezed for millions of years, they slowly turned into coal.",
+      "minerals": ["Carbon from ancient plants", "Bits of clay and other minerals"],
+      "hardness": { "min": 1, "max": 3 },
+      "whereFound": "Coal mines, and dark layers in hillsides and road cuts where ancient swamps once were.",
+      "funFacts": [
+        "Many coal beds formed more than 300 million years ago, in a time called the Carboniferous Period, which means 'coal-bearing'.",
+        "You can sometimes find fossil leaves and ferns in or near coal.",
+        "It takes many feet of squished plant material to make just one foot of coal."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Obsidian is shiny black too, but it is hard and heavy and does not leave marks. Black shale is heavier and does not burn.",
+      "safetyNote": "Coal dust is messy. Wash your hands after touching it.",
+      "commonness": 2,
+      "art": { "pattern": "coal", "base": "#1C1C1D", "accents": ["#3B3B42", "#0E0E0E", "#8C8C98"], "seed": 17 },
+      "clues": {
+        "color": { "light": 0.01, "medium": 0.04, "dark": 0.95 },
+        "reddish": 0.01, "grains": 0.03, "speckled": 0.03, "quartzBits": 0.02, "sparkle": 0.3, "glassy": 0.3, "layers": 0.45,
+        "sheets": 0.3, "holes": 0.03, "floats": 0.05, "fizz": 0.02, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.1, "nailScratch": 0.9, "marks": 0.9, "fossils": 0.12, "lightweight": 0.85
+      }
+    },
+    {
+      "id": "chert", "name": "Chert (Flint)", "sayIt": "CHURT", "family": "sedimentary",
+      "kind": "Biological and chemical sedimentary: microscopic quartz",
+      "summary": "A very hard, smooth rock made of microscopic quartz crystals. It breaks with sharp, curved edges and has a waxy shine.",
+      "formation": "Chert forms from silica, the same stuff glass is made of. Silica from the skeletons of tiny sea creatures like sponges and plankton dissolved and hardened again as microscopic quartz, often as lumps inside limestone and chalk.",
+      "minerals": ["Microscopic quartz (silica)"],
+      "hardness": { "min": 6.5, "max": 7 },
+      "whereFound": "In lumps inside limestone and chalk, on beaches, and in stream gravels.",
+      "funFacts": [
+        "Flint is a kind of chert. Early humans chipped it into sharp tools and arrowheads.",
+        "Strike flint against steel and the steel throws off sparks. People used this to start fires.",
+        "Red chert has its own name: jasper."
+      ],
+      "formsFrom": [], "canBecome": [],
+      "lookAlikeTip": "Obsidian is glassier and usually black. Quartzite is grainier and sparkly.",
+      "safetyNote": "Broken chert can have sharp edges. Handle it with care.",
+      "commonness": 3,
+      "art": { "pattern": "waxy", "base": "#6F5F53", "accents": ["#8E7D6F", "#4E4038", "#FFFFFF"], "seed": 18 },
+      "clues": {
+        "color": { "light": 0.25, "medium": 0.4, "dark": 0.35 },
+        "reddish": 0.2, "grains": 0.03, "speckled": 0.05, "quartzBits": 0.1, "sparkle": 0.05, "glassy": 0.6, "layers": 0.12,
+        "sheets": 0.03, "holes": 0.03, "floats": 0.01, "fizz": 0.03, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.05, "nailScratch": 0.03, "marks": 0.01, "fossils": 0.08, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "slate", "name": "Slate", "sayIt": "SLATE", "family": "metamorphic",
+      "kind": "Foliated metamorphic: low heat and pressure",
+      "summary": "A dark gray, fine-grained rock that splits into smooth, flat sheets.",
+      "formation": "Slate forms when shale or mudstone gets squeezed by moving plates. The pressure lines up tiny clay and mica flakes, so the rock splits into thin, flat sheets.",
+      "minerals": ["Mica", "Chlorite", "Quartz"],
+      "hardness": { "min": 3, "max": 5 },
+      "whereFound": "Old mountain areas like Wales, Vermont, and Pennsylvania, and on roofs, floor tiles, and old chalkboards.",
+      "funFacts": [
+        "Long ago, students wrote on small slate boards instead of paper.",
+        "Slate roofs can last more than 100 years.",
+        "Slate is so smooth and flat that the best pool tables have it under the cloth."
+      ],
+      "formsFrom": ["shale"], "canBecome": ["phyllite"],
+      "lookAlikeTip": "Shale is softer and crumbles; slate is harder and 'clinks' when tapped. Phyllite has a silky shine.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "slaty", "base": "#40454A", "accents": ["#34393D", "#4C5257", "#5A6066"], "seed": 19 },
+      "clues": {
+        "color": { "light": 0.02, "medium": 0.28, "dark": 0.7 },
+        "reddish": 0.1, "grains": 0.03, "speckled": 0.03, "quartzBits": 0.02, "sparkle": 0.1, "glassy": 0.03, "layers": 0.55,
+        "sheets": 0.92, "holes": 0.02, "floats": 0.01, "fizz": 0.03, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.05, "nailScratch": 0.45, "marks": 0.1, "fossils": 0.04, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "phyllite", "name": "Phyllite", "sayIt": "FILL-ite", "family": "metamorphic",
+      "kind": "Foliated metamorphic: low to medium heat and pressure",
+      "summary": "A wavy, layered rock with a silky shine, like satin.",
+      "formation": "Phyllite forms when slate is heated and squeezed a bit more. Tiny mica crystals grow just big enough to make the surface shimmer, but they are still too small to see one by one.",
+      "minerals": ["Fine mica (sericite)", "Chlorite", "Quartz"],
+      "hardness": { "min": 3, "max": 4 },
+      "whereFound": "Old mountain belts like the Appalachians and the Alps.",
+      "funFacts": [
+        "Its name comes from the Greek word for leaf, because it splits into leaf-like layers.",
+        "Phyllite is the in-between step on the way from slate to schist."
+      ],
+      "formsFrom": ["slate"], "canBecome": ["schist"],
+      "lookAlikeTip": "Slate is duller. Schist has bigger mica flakes that you can see glitter.",
+      "safetyNote": null, "commonness": 2,
+      "art": { "pattern": "sheen", "base": "#6A716B", "accents": ["#9DA69E", "#CAD2CB", "#555C57"], "seed": 20 },
+      "clues": {
+        "color": { "light": 0.1, "medium": 0.5, "dark": 0.4 },
+        "reddish": 0.08, "grains": 0.05, "speckled": 0.05, "quartzBits": 0.05, "sparkle": 0.75, "glassy": 0.1, "layers": 0.7,
+        "sheets": 0.8, "holes": 0.02, "floats": 0.01, "fizz": 0.03, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.05, "nailScratch": 0.55, "marks": 0.05, "fossils": 0.02, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "schist", "name": "Schist", "sayIt": "SHIST", "family": "metamorphic",
+      "kind": "Foliated metamorphic: medium to high heat and pressure",
+      "summary": "A sparkly, layered rock full of shiny mica flakes that you can see.",
+      "formation": "Schist forms when rocks like shale or phyllite are buried deep and heated even more. Mica crystals grow big enough to see and line up in wavy layers that glitter.",
+      "minerals": ["Mica (muscovite and biotite)", "Quartz", "Garnet (sometimes)"],
+      "hardness": { "min": 3, "max": 5 },
+      "whereFound": "The cores of old mountain ranges like the Appalachians and the Alps. Much of Manhattan in New York City sits on schist!",
+      "funFacts": [
+        "Many of New York City's skyscrapers stand on strong Manhattan Schist.",
+        "Some schist has little red garnet crystals sprinkled in it.",
+        "The word schist comes from a Greek word meaning 'split'."
+      ],
+      "formsFrom": ["phyllite", "basalt"], "canBecome": ["gneiss"],
+      "lookAlikeTip": "Gneiss has thick light and dark stripes and fewer shiny flakes. Phyllite only shimmers; its crystals are too tiny to see.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "schistose", "base": "#8B8579", "accents": ["#CBC4B5", "#4C463E", "#FFFFFF", "#9B2D2D"], "seed": 21 },
+      "clues": {
+        "color": { "light": 0.25, "medium": 0.5, "dark": 0.25 },
+        "reddish": 0.1, "grains": 0.7, "speckled": 0.4, "quartzBits": 0.4, "sparkle": 0.95, "glassy": 0.03, "layers": 0.85,
+        "sheets": 0.6, "holes": 0.02, "floats": 0.01, "fizz": 0.04, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.45, "marks": 0.05, "fossils": 0.01, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "gneiss", "name": "Gneiss", "sayIt": "NICE", "family": "metamorphic",
+      "kind": "Foliated metamorphic: high heat and pressure",
+      "summary": "A tough rock with light and dark stripes, like a zebra or a layered candy.",
+      "formation": "Gneiss forms deep in the Earth where heat and pressure are extreme. As the rock is squeezed, its minerals separate into light and dark bands, but the rock does not melt.",
+      "minerals": ["Feldspar", "Quartz", "Biotite mica", "Hornblende"],
+      "hardness": { "min": 6, "max": 7 },
+      "whereFound": "The cores of mountains and the oldest parts of continents, like Canada, Scandinavia, and Scotland.",
+      "funFacts": [
+        "It is pronounced 'nice'!",
+        "Some of the oldest rocks on Earth are gneisses. The Acasta Gneiss in Canada is about 4 billion years old.",
+        "Gneiss can form from granite, schist, and many other rocks."
+      ],
+      "formsFrom": ["granite", "diorite", "schist"], "canBecome": [],
+      "lookAlikeTip": "Granite has the same crystals, but no stripes. Schist is more glittery and splits more easily.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "banded", "base": "#D0C7BB", "accents": ["#2F2F2F", "#EAE4DB", "#B98F7A"], "seed": 22 },
+      "clues": {
+        "color": { "light": 0.3, "medium": 0.5, "dark": 0.2 },
+        "reddish": 0.25, "grains": 0.9, "speckled": 0.75, "quartzBits": 0.65, "sparkle": 0.45, "glassy": 0.03, "layers": 0.95,
+        "sheets": 0.08, "holes": 0.02, "floats": 0.01, "fizz": 0.03, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.08, "marks": 0.02, "fossils": 0.01, "lightweight": 0.03
+      }
+    },
+    {
+      "id": "marble", "name": "Marble", "sayIt": "MAR-bul", "family": "metamorphic",
+      "kind": "Non-foliated metamorphic: heated limestone",
+      "summary": "A sparkly, sugary-looking rock made of calcite crystals, often white with colorful swirls. It fizzes with vinegar.",
+      "formation": "Marble forms when limestone is heated and squeezed deep underground. The calcite grows into bigger, interlocking crystals, and old fossils and layers disappear.",
+      "minerals": ["Calcite", "Dolomite (sometimes)"],
+      "hardness": { "min": 3, "max": 4 },
+      "whereFound": "Mountains like the Alps of Italy and the state of Vermont, and in statues, floors, and buildings.",
+      "funFacts": [
+        "Michelangelo carved his famous statue David from white Carrara marble.",
+        "The Taj Mahal in India is covered in white marble.",
+        "Colorful swirls in marble come from bits of other minerals that were in the limestone."
+      ],
+      "formsFrom": ["limestone", "chalk"], "canBecome": [],
+      "lookAlikeTip": "Quartzite looks similar but is much harder and does not fizz. Limestone fizzes too, but it is not sparkly.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "veined", "base": "#F1EFEA", "accents": ["#A9ADB4", "#D3D6DB", "#FFFFFF"], "seed": 23 },
+      "clues": {
+        "color": { "light": 0.8, "medium": 0.17, "dark": 0.03 },
+        "reddish": 0.1, "grains": 0.7, "speckled": 0.1, "quartzBits": 0.2, "sparkle": 0.65, "glassy": 0.1, "layers": 0.2,
+        "sheets": 0.02, "holes": 0.03, "floats": 0.01, "fizz": 0.88, "pebbles": 0.02, "roundPebbles": 0.5,
+        "gritty": 0.35, "nailScratch": 0.85, "marks": 0.03, "fossils": 0.03, "lightweight": 0.05
+      }
+    },
+    {
+      "id": "quartzite", "name": "Quartzite", "sayIt": "KWARTS-ite", "family": "metamorphic",
+      "kind": "Non-foliated metamorphic: heated sandstone",
+      "summary": "A super-hard rock made of tightly fused quartz grains, looking glassy and sugary. It is often white, pink, or gray.",
+      "formation": "Quartzite forms when sandstone is heated and squeezed. The sand grains fuse together so tightly that the rock breaks right through the grains instead of around them.",
+      "minerals": ["Quartz"],
+      "hardness": { "min": 6.5, "max": 7 },
+      "whereFound": "Mountain ranges, river cobbles, and kitchen countertops.",
+      "funFacts": [
+        "Quartzite is one of the hardest common rocks. It can scratch glass!",
+        "Because it is so tough, quartzite pebbles survive long trips down rivers."
+      ],
+      "formsFrom": ["sandstone"], "canBecome": [],
+      "lookAlikeTip": "Marble looks similar but is softer and fizzes in vinegar. Sandstone feels gritty, and its grains can rub off.",
+      "safetyNote": null, "commonness": 3,
+      "art": { "pattern": "sugary", "base": "#E6D4CC", "accents": ["#F7EFEB", "#CFB4A7", "#FFFFFF"], "seed": 24 },
+      "clues": {
+        "color": { "light": 0.75, "medium": 0.2, "dark": 0.05 },
+        "reddish": 0.25, "grains": 0.55, "speckled": 0.1, "quartzBits": 0.6, "sparkle": 0.55, "glassy": 0.35, "layers": 0.15,
+        "sheets": 0.05, "holes": 0.02, "floats": 0.01, "fizz": 0.03, "pebbles": 0.03, "roundPebbles": 0.5,
+        "gritty": 0.3, "nailScratch": 0.03, "marks": 0.01, "fossils": 0.01, "lightweight": 0.03
+      }
+    }
+  ]
+}
