@@ -3,6 +3,12 @@ import Foundation
 import Observation
 import RockKit
 
+/// A photo waiting to be framed on the crop screen.
+struct PendingPhoto: Identifiable {
+    let id = UUID()
+    let image: CGImage
+}
+
 enum Route: Hashable {
     case identify
     case rock(String)
@@ -42,6 +48,8 @@ final class AppModel {
 
     var path: [Route] = []
     private(set) var activeSession: IdentificationSession?
+    /// Set when a photo was taken or chosen; shows the "frame your rock" screen.
+    var pendingPhoto: PendingPhoto?
 
     init(launch: LaunchOptions = .current) {
         self.launch = launch
@@ -81,6 +89,22 @@ final class AppModel {
         identifier = RockIdentifier(catalog: catalog, reference: ReferenceMatcher(samples: samples))
     }
 
+    /// A new photo arrived from the camera, the library, or practice mode:
+    /// let the kid frame the rock first.
+    func photoTaken(_ image: CGImage) {
+        pendingPhoto = PendingPhoto(image: image)
+    }
+
+    /// The kid framed the rock: identify the cropped photo.
+    func useFramedPhoto(_ image: CGImage) {
+        pendingPhoto = nil
+        startIdentification(with: image)
+    }
+
+    func cancelFraming() {
+        pendingPhoto = nil
+    }
+
     func startIdentification(with image: CGImage) {
         let session = IdentificationSession(identifier: identifier, store: store)
         activeSession = session
@@ -96,6 +120,6 @@ final class AppModel {
     func startPractice() {
         guard let rock = practiceRock,
               let image = RockArtRenderer.renderPracticePhoto(rock.art, size: 1200) else { return }
-        startIdentification(with: image)
+        photoTaken(image)
     }
 }

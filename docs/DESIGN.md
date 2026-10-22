@@ -192,7 +192,8 @@ RockID.xcodeproj
     ├── Engine/             RockMatcher (Bayes), QuestionPlanner (info gain),
     │                       ReferenceMatcher (k-NN), RockIdentifier (facade)
     ├── Imaging/            ImageLoader (ImageIO), PixelBuffer, PhotoAnalyzer,
-    │                       PhotoEvidence, FeaturePrinter (Vision)
+    │                       PhotoEvidence, FeaturePrinter (Vision),
+    │                       CropFraming (crop math), SubjectFinder (Vision saliency)
     ├── Art/                RockArtRenderer (procedural CoreGraphics art)
     ├── History/            Finding, HistoryStore (JSON + JPEG files)
     └── Session/            IdentificationSession (@Observable view model)
@@ -218,20 +219,29 @@ and the app starts with an empty list instead of crashing.
 answers, photo evidence, optional nickname. Re-opening a finding restores the
 session so kids can keep answering clues later; the entry is updated in place.
 
-### 3.2 User flow (2 taps to an answer)
+### 3.2 User flow (3 taps to an answer)
 
 1. **Home**: big "Take a Photo" and "Choose a Photo" buttons, "My Rocks"
    and "Rock Book" cards, discovery progress ("You found 3 of 24 rocks!").
-2. **Looking for clues** (≈ 0.1–0.5 s): mascot with magnifying glass.
-3. **Result**: photo + "Clues I spotted", best match with art, family badge,
+2. **Frame your rock**: the photo sits under a square frame with a dashed
+   aiming circle. Kids pinch (zooming around their fingers) and drag so
+   only the rock fills it; "Zoom out" resets and "Cancel" goes back without
+   saving anything. VoiceOver can zoom (adjustable) and move the photo
+   (named actions). When Vision
+   objectness saliency finds the main object, the frame glides onto it
+   (unless the kid has already moved the photo) and a "Center rock" button
+   can bring it back. Every photo source goes through this step: camera,
+   library, and practice mode.
+3. **Looking for clues** (≈ 0.1–0.5 s): mascot with magnifying glass.
+4. **Result**: photo + "Clues I spotted", best match with art, family badge,
    confidence stars, "Could also be…", and a **Detective clue card**
    (Yes / No / Not sure, with how-to and safety tip). Each answer instantly
    re-ranks; answered clues can be changed. "Learn all about it" opens the
    rock page. The find is auto-saved to the collection.
-4. **Rock page**: how to say it, family, how it formed, minerals, hardness
+5. **Rock page**: how to say it, family, how it formed, minerals, hardness
    scale with everyday objects, where to find it, fun facts, rock cycle links.
-5. **My Rocks**: grid of saved finds; tap to reopen; delete with confirmation.
-6. **Rock Book**: all 24 rocks by family; discovered ones get a star; a
+6. **My Rocks**: grid of saved finds; tap to reopen; delete with confirmation.
+7. **Rock Book**: all 24 rocks by family; discovered ones get a star; a
    Rock Cycle explainer.
 
 ### 3.3 Kid-friendly design rules
@@ -404,6 +414,22 @@ Synthetic images are generated in the tests with Core Graphics.
 | UI-05 | Relaunch app (no reset) | find still in My Rocks (persistence) |
 | UI-06 | Rock Book → Granite | shows "Igneous" and hardness section |
 | UI-07 | Delete find in My Rocks | list empty state shown |
+| UI-08 | Practice rock → crop screen: cancel; then zoom out, pinch, use | cancel saves nothing; zoom out returns to 100 %; pinch zooms; the identified photo is the smaller cropped square |
+
+### 5.10 Photo cropping (CR) — added with the "Frame your rock" feature
+
+| ID | Test | Expected |
+|---|---|---|
+| CR-01 | Full framing of landscape, portrait and square photos | centered square of the shorter side |
+| CR-02 | Panning far in every direction | crop stops at the photo's edges; no vertical room at zoom 1 on landscape |
+| CR-03 | Zoom limits | 1 … min(8, shorter side / 160 px); tiny photos can't zoom |
+| CR-04 | Zooming after a pan | the spot in the middle of the frame stays put (±1 px) |
+| CR-10 | Pinch zoom around an off-center anchor | the photo spot under the fingers stays put (±2 px); bad anchors fall back to the center |
+| CR-05 | Framing a given square | round-trips within 1 px; too-small squares are limited by max zoom around the same center |
+| CR-06 | Suggested square around an object | padded, square, shifted (not shrunk) to stay inside the photo |
+| CR-07 | 2,000 random framings incl. NaN and out-of-range values | always a whole-pixel square inside the photo, never smaller than the zoom limit allows |
+| CR-08 | Vision subject finder on an off-center rock | suggestion contains and is centered on the rock (skipped where Vision saliency is unavailable) |
+| CR-09 | Off-center rock photo, uncropped vs cropped (granite, basalt, gneiss) | cropped rank ≤ 3 and better than uncropped (measured: 9–22 → 1) |
 
 ---
 
@@ -424,8 +450,8 @@ All numbers below come from the test suite (`scripts/test-all.sh`).
 
 | Suite | macOS (`swift test`) | iPad simulator (iOS 27) |
 |---|---|---|
-| RockKit unit tests | 83 / 83 pass | 83 / 83 pass (RM-05 skipped: the simulator has no Vision feature-print model; it passes on macOS) |
-| UI tests (UI-01 … UI-07 + learn-more flow) | — | 4 / 4 pass |
+| RockKit unit tests | 94 / 94 pass | 94 / 94 pass (RM-05 and CR-08 skipped: the simulator has no Vision feature-print or saliency model; both pass on macOS) |
+| UI tests (UI-01 … UI-08 + learn-more flow) | — | 5 / 5 pass |
 
 **Accuracy (simulated kids, seeded).** Each simulated kid draws every clue
 answer from its rock's catalog probabilities and never makes mistakes, and
@@ -471,6 +497,15 @@ photo analysis 47 ms, 12 MP decode + downsample 70 ms.
   local contrast with a layer discount, the crop tightened to 60 %, warm hue
   needs saturation ≥ 0.27, and glare is excluded from specks and layers.
   Real-world calibration still needs a labelled photo set (see §6).
+
+* **"Frame your rock" review.** An adversarial review of the crop feature
+  (four lenses, each finding challenged by a skeptic) confirmed eight issues,
+  all fixed: gesture jumps after a system-cancelled pinch or drag, the
+  misleading "Whole photo" label (now "Zoom out"), a late auto-center
+  overriding the kid's choice, pinch not zooming around the fingers, no way
+  to pan with VoiceOver or Switch Control, fixed-height layout breaking in
+  Slide Over, two presentation races on the photo-library path, and a UI test
+  that couldn't tell whether the crop was really applied.
 
 ## 8. Building and testing
 

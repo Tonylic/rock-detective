@@ -6,6 +6,8 @@ struct HomeView: View {
     @Environment(AppModel.self) private var model
     @State private var pickerItem: PhotosPickerItem?
     @State private var showCamera = false
+    /// Held until the camera finishes closing, so the crop screen can open cleanly.
+    @State private var capturedPhoto: CGImage?
     @State private var showPhotoPicker = false
     @State private var isLoadingPhoto = false
     @State private var photoError = false
@@ -25,10 +27,15 @@ struct HomeView: View {
         }
         .background(Theme.backgroundGradient.ignoresSafeArea())
         .toolbar(.hidden, for: .navigationBar)
-        .fullScreenCover(isPresented: $showCamera) {
+        .fullScreenCover(isPresented: $showCamera, onDismiss: {
+            if let photo = capturedPhoto {
+                capturedPhoto = nil
+                model.photoTaken(photo)
+            }
+        }) {
             CameraPicker { image in
+                capturedPhoto = image
                 showCamera = false
-                model.startIdentification(with: image)
             } onCancel: {
                 showCamera = false
             }
@@ -85,6 +92,8 @@ struct HomeView: View {
                 .buttonStyle(ChunkyButtonStyle(color: Theme.sky))
                 .accessibilityIdentifier("choosePhotoButton")
             }
+            // One photo at a time: a slow library photo must not race the camera.
+            .disabled(isLoadingPhoto)
 
             if let rock = model.practiceRock {
                 Button {
@@ -97,6 +106,7 @@ struct HomeView: View {
                 }
                 .buttonStyle(ChunkyButtonStyle(color: Theme.grape))
                 .accessibilityIdentifier("practiceRockButton")
+                .disabled(isLoadingPhoto)
             }
 
             if isLoadingPhoto {
@@ -192,7 +202,11 @@ struct HomeView: View {
 
     // MARK: - Actions
 
+    /// How long the system photo picker takes to slide away after a pick.
+    private static let pickerCloseTime: Duration = .milliseconds(650)
+
     private func loadPickedPhoto(_ item: PhotosPickerItem) async {
+        let pickedAt = ContinuousClock.now
         isLoadingPhoto = true
         defer {
             isLoadingPhoto = false
@@ -209,6 +223,12 @@ struct HomeView: View {
             photoError = true
             return
         }
-        model.startIdentification(with: image)
+        // The picker starts closing when the photo is picked. Let it finish so
+        // the crop screen can open cleanly (the camera waits for onDismiss).
+        let elapsed = ContinuousClock.now - pickedAt
+        if elapsed < Self.pickerCloseTime {
+            try? await Task.sleep(for: Self.pickerCloseTime - elapsed)
+        }
+        model.photoTaken(image)
     }
 }

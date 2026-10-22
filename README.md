@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/iPadOS-17%2B-0A84FF" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/Swift-6-F05138" alt="Swift 6">
   <img src="https://img.shields.io/badge/UI-SwiftUI-1C7ED6" alt="SwiftUI">
-  <img src="https://img.shields.io/badge/tests-83%20unit%20%2B%204%20UI-2EA043" alt="83 unit tests and 4 UI tests">
+  <img src="https://img.shields.io/badge/tests-94%20unit%20%2B%205%20UI-2EA043" alt="94 unit tests and 5 UI tests">
   <img src="https://img.shields.io/badge/network-none-6E7781" alt="No network access">
 </p>
 
@@ -41,10 +41,10 @@ Kids get an answer in seconds, and they learn the real tests scientists use alon
 
 ## How it works for kids
 
-| 1. Snap or choose a photo | 2. See the first guess | 3. Answer detective clues | 4. Build a collection |
-|:---:|:---:|:---:|:---:|
-| <img src="docs/images/home.jpg" width="200" alt="Home screen"> | <img src="docs/images/result-first-guess.jpg" width="200" alt="First guess: Granite, just a hunch, 22% sure"> | <img src="docs/images/your-clues.jpg" width="200" alt="Answered clues list and Could also be suggestions"> | <img src="docs/images/my-rocks.jpg" width="200" alt="My Rocks collection with four identified rocks"> |
-| Big buttons. Photo tips: get close, use good light, wet the rock to see its colors. | The app lists the clues it spotted in the photo and gives an honest first guess. | Each answer re-ranks the rocks instantly. If the photo already hints at an answer, the app says so and asks the kid to check. | Every find is saved with its photo, so kids can come back and keep investigating. |
+| 1. Snap or choose a photo | 2. Frame the rock | 3. See the first guess | 4. Answer detective clues | 5. Build a collection |
+|:---:|:---:|:---:|:---:|:---:|
+| <img src="docs/images/home.jpg" width="160" alt="Home screen"> | <img src="docs/images/frame-rock.jpg" width="160" alt="Frame your rock screen: the photo under a square frame with a dashed aiming circle, and Zoom out, Cancel and Use this photo buttons"> | <img src="docs/images/result-first-guess.jpg" width="160" alt="First guess: Granite, just a hunch, 22% sure"> | <img src="docs/images/your-clues.jpg" width="160" alt="Answered clues list and Could also be suggestions"> | <img src="docs/images/my-rocks.jpg" width="160" alt="My Rocks collection with four identified rocks"> |
+| Big buttons. Photo tips: get close, use good light, wet the rock to see its colors. | Pinch and drag so the rock fills the frame. When the app can spot the rock, it centers the frame for you. | The app lists the clues it spotted in the photo and gives an honest first guess. | Each answer re-ranks the rocks instantly. If the photo already hints at an answer, the app says so and asks the kid to check. | Every find is saved with its photo, so kids can come back and keep investigating. |
 
 ### More screens
 
@@ -60,6 +60,7 @@ Kids get an answer in seconds, and they learn the real tests scientists use alon
 ## Features
 
 - 📷 **Camera or photo library.** Take a picture or pick one you already have.
+- ✂️ **Frame your rock.** Before identifying, kids pinch and drag so only the rock fills a square frame. When Apple's on-device Vision can spot the rock, the frame starts centered on it. Cropping matters: in the tests, an off-center rock goes from ranked 9th–22nd to ranked 1st.
 - 🔎 **Photo clues.** Color tone, warm hue, visible grains, specks, layers, and glassy shine, described in kid language.
 - 🕵️ **Adaptive "20 questions".** The next clue is the one expected to teach the most (largest information gain), with a small discount for tests that need a tool. Follow-up questions stay on topic ("made of pebbles?" leads to "are the pebbles round?").
 - ⭐ **Honest confidence.** Stars, a percentage, and the two most likely look-alikes on every result.
@@ -68,7 +69,7 @@ Kids get an answer in seconds, and they learn the real tests scientists use alon
 - 🧺 **My Rocks.** A saved collection with discovery progress ("You've discovered 4 of 24 kinds of rocks!").
 - 🛡️ **Safety built in.** Tests that need vinegar or a nail say "ask a grown-up"; obsidian and chert pages warn about sharp edges.
 - 🎨 **Every rock is drawn by code.** Each rock's real texture (speckles, bands, bubble holes, pebbles, fossils) is drawn by a deterministic Core Graphics renderer, so no licensed images are needed.
-- ♿ **Kid- and accessibility-minded.** Large text and tap targets, VoiceOver labels, light and dark mode, and Reduce Motion support.
+- ♿ **Kid- and accessibility-minded.** Large text and tap targets, VoiceOver labels (including zooming and moving the photo on the framing screen), light and dark mode, and Reduce Motion support.
 
 <p align="center">
   <img src="docs/images/rocks.png" width="90%" alt="All 24 rock illustrations: granite, diorite, gabbro, basalt, andesite, rhyolite, obsidian, pumice, scoria, tuff, sandstone, shale, conglomerate, breccia, limestone, chalk, coal, chert, slate, phyllite, schist, gneiss, marble, quartzite">
@@ -94,7 +95,8 @@ The content was written for ages 6–12 and checked for scientific accuracy. Som
 
 ```mermaid
 flowchart LR
-    P["📷 Photo"] --> A["Photo analyzer<br/>color · grains · specks<br/>layers · glassy shine"]
+    P["📷 Photo"] --> F["✂️ Frame the rock<br/>Vision finds it · kid adjusts"]
+    F --> A["Photo analyzer<br/>color · grains · specks<br/>layers · glassy shine"]
     A -- "soft evidence" --> M["Bayesian matcher<br/>24 rocks × 19 clues"]
     K["🕵️ Kid's answers"] -- "evidence" --> M
     R[("Reference photos<br/>k-NN · optional")] -.-> M
@@ -105,6 +107,8 @@ flowchart LR
 ```
 
 **Knowledge base.** [`rocks.json`](Packages/RockKit/Sources/RockKit/Resources/rocks.json) holds the kid-facing content for each rock and a likelihood table for 19 observable clues, for example P(fizzes with vinegar | limestone) ≈ 0.9. The catalog is validated on load: probabilities, hardness ranges, and rock-cycle links.
+
+**Framing.** `SubjectFinder` asks Vision's objectness saliency where the main object is and suggests a padded square around it. `CropFraming` holds the zoom-and-pan math for the crop screen, and pinches zoom around the fingers. Its state doesn't depend on screen size, so it survives rotation; it keeps the crop inside the photo and stops zooming before the crop drops below 160 pixels. It returns whole-pixel squares, ready for `CGImage.cropping(to:)`.
 
 **Photo analysis.** This runs on a centered square crop whose side is 60% of the photo's shorter edge, scaled down to 160×160 pixels, in about 50 ms. The cues are physically motivated:
 
@@ -179,11 +183,11 @@ open rock-detective/RockID.xcodeproj
 
 Choose the **RockID** scheme and an iPad simulator, then press Run. To run on a real iPad (needed for the camera), first pick your own team under **Signing & Capabilities** for the RockID target, and change the bundle identifier if Xcode says it's unavailable.
 
-> **Tip for the simulator (no camera):** launch the app with `-practiceRock granite` (any rock id from `rocks.json` works). A **Practice Rock** button appears that sends a drawn "photo" of that rock through the real identification flow. Add `-uiTesting -resetHistory` to use a separate, freshly cleared collection.
+> **Tip for the simulator (no camera):** launch the app with `-practiceRock granite` (any rock id from `rocks.json` works). A **Practice Rock** button appears that sends a drawn "photo" of that rock through the real flow, starting with the framing screen. Add `-uiTesting -resetHistory` to use a separate, freshly cleared collection.
 
 ## Testing
 
-One command runs all 83 RockKit tests on macOS and on the iPad simulator, then the 4 UI tests on the simulator:
+One command runs all 94 RockKit tests on macOS and on the iPad simulator, then the 5 UI tests on the simulator:
 
 ```bash
 scripts/test-all.sh
@@ -195,13 +199,14 @@ scripts/test-all.sh
 | Matcher | 14 | 15 classic field-test combinations, robustness to mistakes, simulated accuracy vs the Bayes-optimal classifier |
 | Question planner | 8 | Information gain, follow-ups, stopping, adaptive vs random |
 | Photo analysis | 19 | Synthetic images (stripes, specks, glare), practice photos, image loading and EXIF orientation |
+| Photo cropping | 11 | Crop math (edges, zoom limits, pinch anchor, 2,000 random framings), Vision rock-finding*, and that cropping lifts an off-center rock from rank 9–22 to 1 |
 | Reference matcher | 7 | k-NN voting, smoothing, Vision feature prints* |
 | History | 9 | Save and reload, ordering, delete, recovery from a corrupt file |
 | Session | 5 | Photo → answers → saved find → reopen |
 | Performance | 4 | The four timings above, each held to its budget |
-| UI (XCUITest) | 4 | Launch, identify, answer, persist across relaunch, delete, Rock Book, learn more |
+| UI (XCUITest) | 5 | Launch, frame the rock (cancel, pinch, zoom out, crop really applied), identify, answer, persist across relaunch, delete, Rock Book, learn more |
 
-<sub>*The Vision feature-print test runs on macOS and is skipped on the iOS simulator, which doesn't include the feature-print model.</sub>
+<sub>*The Vision tests (feature prints and rock-finding) run on macOS and are skipped on the iOS simulator, which doesn't include those models.</sub>
 
 For logic-only changes there's a faster loop: `swift test --package-path Packages/RockKit`.
 
@@ -210,14 +215,14 @@ For logic-only changes there's a faster loop: `swift test --package-path Package
 ```text
 RockID/                     SwiftUI app (iPad)
 ├── App/                    Entry point, AppModel, launch options
-├── Views/                  Home, Identify, Rock page, Rock Book, Rock Cycle, My Rocks, mascot
+├── Views/                  Home, Frame your rock, Identify, Rock page, Rock Book, Rock Cycle, My Rocks, mascot
 └── Support/                Theme, camera picker, rock-art view
 RockIDUITests/              End-to-end UI tests
 Packages/RockKit/           All logic as a Swift package (Swift 6, strict concurrency)
 ├── Sources/RockKit/
 │   ├── Catalog/            Rock, ClueQuestion, RockCatalog (+ Resources/rocks.json)
 │   ├── Engine/             RockMatcher, QuestionPlanner, ReferenceMatcher, RockIdentifier
-│   ├── Imaging/            PhotoAnalyzer, ImageLoader, FeaturePrinter, photo clues
+│   ├── Imaging/            PhotoAnalyzer, ImageLoader, FeaturePrinter, CropFraming, SubjectFinder
 │   ├── Art/                RockArtRenderer (procedural illustrations)
 │   ├── History/            HistoryStore (JSON + JPEG files)
 │   └── Session/            IdentificationSession (@Observable view model)

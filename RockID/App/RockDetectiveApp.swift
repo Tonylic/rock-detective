@@ -40,5 +40,12 @@ struct RootView: View {
                 }
         }
         .tint(Theme.lava)
+        .fullScreenCover(item: $model.pendingPhoto) { pending in
+            PhotoCropView(photo: pending.image) { cropped in
+                model.useFramedPhoto(cropped)
+            } onCancel: {
+                model.cancelFraming()
+            }
+        }
     }
 }

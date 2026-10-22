@@ -24,6 +24,10 @@ final class RockDetectiveUITests: XCTestCase {
         let practice = app.buttons["practiceRockButton"]
         XCTAssertTrue(practice.waitForExistence(timeout: timeout))
         practice.tap()
+        // Every photo goes through "Frame your rock" first.
+        let use = app.buttons["useCropButton"]
+        XCTAssertTrue(use.waitForExistence(timeout: timeout), "The crop screen did not appear")
+        use.tap()
         XCTAssertTrue(app.staticTexts["bestMatchName"].waitForExistence(timeout: timeout), "No result appeared")
     }
 
@@ -111,6 +115,54 @@ final class RockDetectiveUITests: XCTestCase {
         }
         XCTAssertTrue(hardness.exists)
         XCTAssertTrue(hardness.label.contains("6"))
+    }
+
+    /// UI-08: framing the photo — cancel saves nothing; zooming really crops
+    /// the photo that gets identified; zoom out returns to 100%.
+    @MainActor
+    func testFrameYourRock() {
+        let app = launch(reset: true, practiceRock: "granite")
+        let practice = app.buttons["practiceRockButton"]
+        XCTAssertTrue(practice.waitForExistence(timeout: timeout))
+
+        // Cancel: back home, nothing saved.
+        practice.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["cropView"].waitForExistence(timeout: timeout))
+        XCTAssertTrue(app.staticTexts["Frame your rock 🎯"].exists)
+        app.buttons["cancelCropButton"].tap()
+        XCTAssertTrue(app.staticTexts["appTitle"].waitForExistence(timeout: timeout))
+        app.buttons["myRocksButton"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["emptyCollection"].waitForExistence(timeout: timeout))
+        goHome(app)
+
+        practice.tap()
+        let area = app.descendants(matching: .any)["cropArea"]
+        XCTAssertTrue(area.waitForExistence(timeout: timeout))
+        // Let the rock finder settle so it can't change the framing mid-test.
+        let settled = NSPredicate(format: "label != %@", "Looking for your rock…")
+        expectation(for: settled, evaluatedWith: app.staticTexts["cropHint"])
+        waitForExpectations(timeout: timeout)
+
+        // Zoom out resets to 100%.
+        app.buttons["zoomOutButton"].tap()
+        let full = NSPredicate(format: "value == %@", "Zoom 100 percent")
+        expectation(for: full, evaluatedWith: area)
+        waitForExpectations(timeout: timeout)
+
+        // Pinch to zoom in, then use the photo: the identified photo must be the
+        // smaller cropped square, not the whole 1200 × 1200 practice photo.
+        area.pinch(withScale: 2.5, velocity: 2)
+        XCTAssertNotEqual(area.value as? String, "Zoom 100 percent", "Pinching did not zoom")
+        app.buttons["useCropButton"].tap()
+        XCTAssertTrue(app.staticTexts["bestMatchName"].waitForExistence(timeout: timeout))
+        let resultPhoto = app.descendants(matching: .any)["resultPhoto"]
+        XCTAssertTrue(resultPhoto.waitForExistence(timeout: timeout))
+        let size = (resultPhoto.value as? String ?? "").split(separator: " ").compactMap { Int($0) }
+        XCTAssertEqual(size.count, 2, "Unexpected photo description: \(String(describing: resultPhoto.value))")
+        if size.count == 2 {
+            XCTAssertEqual(size[0], size[1], "The crop should be square")
+            XCTAssertLessThan(size[0], 1000, "The photo was not cropped")
+        }
     }
 
     /// Learning flow: from a result into the rock's page and the rock cycle.

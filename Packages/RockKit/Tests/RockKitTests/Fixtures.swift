@@ -1,6 +1,7 @@
 import CoreGraphics
 import Foundation
 import ImageIO
+import Vision
 @testable import RockKit
 
 enum Fixtures {
@@ -31,6 +32,12 @@ enum Fixtures {
         FileManager.default.temporaryDirectory
             .appendingPathComponent("RockKitTests-\(UUID().uuidString)", isDirectory: true)
     }
+
+    static let subjectFinderAvailable: Bool = {
+        guard let image = TestImages.speckles(size: 64, seed: 2) else { return false }
+        let request = VNGenerateObjectnessBasedSaliencyImageRequest()
+        return (try? VNImageRequestHandler(cgImage: image, options: [:]).perform([request])) != nil
+    }()
 
     static let visionAvailable: Bool = {
         guard let image = TestImages.speckles(size: 64, seed: 1) else { return false }

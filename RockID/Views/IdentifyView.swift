@@ -149,7 +149,11 @@ struct PhotoCard: View {
         .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .shadow(color: .black.opacity(0.12), radius: 12, y: 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isImage)
         .accessibilityLabel("Your rock photo")
+        .accessibilityValue(photo.map { "\($0.width) by \($0.height) pixels" } ?? "")
+        .accessibilityIdentifier("resultPhoto")
     }
 }
 
